@@ -11,7 +11,7 @@ interface IUpdateProduct {
 
 export default class UpdateProductService {
   async excute({ id, name, price, quantity}: IUpdateProduct): Promise<Product> {
-        const product = await productsRepositoreis.findByName(id)
+        const product = await productsRepositoreis.finById(id)
 
         if (!product) {
           throw new AppError ("Product not found.", 404)
