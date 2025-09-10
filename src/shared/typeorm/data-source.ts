@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import 'dotenv/config'
 import { DataSource } from 'typeorm'
-import { Product } from '@modules/database/entities/Product'
+import { Product } from '@modules/products/database/entities/Product'
 
 export const AppDataSource = new DataSource({
   type: 'postgres',

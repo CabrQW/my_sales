@@ -1,5 +1,5 @@
-import { Product } from "@modules/database/entities/Product";
-import { productsRepositoreis } from "@modules/repositories/ProductsRepositories";
+import { Product } from "@modules/products/database/entities/Product";
+import { productsRepositoreis } from "@modules/products/repositories/ProductsRepositories";
 import AppError from "@shared/errors/AppError";
 
 interface IUpdateProduct {
