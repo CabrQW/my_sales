@@ -10,16 +10,15 @@ interface IUpdateProduct {
 }
 
 export default class UpdateProductService {
-  async excute({ id, name, price, quantity}: IUpdateProduct): Promise<Product> {
-        const product = await productsRepositoreis.finById(id)
+  async execute({ id, name, price, quantity}: IUpdateProduct): Promise<Product> {
+        const product = await productsRepositoreis.findById(id)
 
         if (!product) {
           throw new AppError ("Product not found.", 404)
         }
 
         const productExists = await productsRepositoreis.findByName(name)
-
-        if(productExists){
+        if(productExists && productExists.id !== id){
           throw new AppError('There is already one product with this name',405)
         }
 

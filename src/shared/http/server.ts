@@ -15,14 +15,16 @@ AppDataSource.initialize()
     app.use(express.json());
 
     app.use(router);
-    app.use(ErrorHandleMiddleware.haddleError)
+    app.use(ErrorHandleMiddleware.handdleError)
 
     console.log('Connected to the database!');
 
     app.listen(3333, () => {
+
     console.log('Server is running on port 3333');
 })
   })
   .catch(error => {
+
   console.error('Failed to connet to the database', error)
 })

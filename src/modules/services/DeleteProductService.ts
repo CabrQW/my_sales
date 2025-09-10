@@ -8,7 +8,7 @@ interface IDeleteProduct {
 
 export default class DeleteProductService {
   async execute({id}: IDeleteProduct): Promise<void>{
-    const product = await productsRepositoreis.finById(id)
+    const product = await productsRepositoreis.findById(id)
 
     if (!product) {
       throw new AppError("Delete not found", 404)

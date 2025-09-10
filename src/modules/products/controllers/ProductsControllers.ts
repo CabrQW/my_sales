@@ -22,7 +22,7 @@ export default class ProductsControllers {
   async create (request: Request, response: Response): Promise<Response> {
     const { name, price, quantity} = request.body
     const createProductService = new CreateProductService()
-    const product = await createProductService.excute({ name, price, quantity})
+    const product = await createProductService.execute({ name, price, quantity})
     return response.json(product)
   }
 
@@ -30,7 +30,7 @@ export default class ProductsControllers {
     const { id } = request.params
     const {  name, price, quantity} = request.body
     const udpateProductService = new UpdateProductService()
-    const product = await udpateProductService.excute({
+    const product = await udpateProductService.execute({
       id, name, price, quantity
     })
 
