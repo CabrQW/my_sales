@@ -5,6 +5,7 @@ import usersRouter from '@modules/Users/routes/UserRoutes';
 import express, { Router } from 'express';
 import updateConfig from '@config/upload'
 import passwordRouter from '@modules/Users/routes/PasswordRoutes';
+import profileRouter from '@modules/Users/routes/ProfileRoutes';
 
 const router = Router();
 router.get('/health', (req, res) => {
@@ -16,6 +17,7 @@ router.use("/users", usersRouter)
 router.use('/sessions', sessionsRouter)
 router.use('/users/avatar', avatarRoutes)
 router.use("/files", express.static(updateConfig.directory))
-router.use("/password", passwordRouter)
+router.use("/passwords", passwordRouter)
+router.use("/profiles", profileRouter)
 
 export default router;
