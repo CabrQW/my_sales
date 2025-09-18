@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import ListCustomerService from "../services/ListCustomersService";
 import ShowCustomerService from "../services/ShowCustomerService";
 import CreateCustomerService from "../services/CreateCustomerService";
-import UpdateCustomrService from "../services/UpdateCustomerService";
+import UpdateCustomerService from "../services/UpdateCustomerService";
 import DeleteCustomerService from "../services/DeleteCustomerService";
 
 export default class CustomersControllers{
@@ -26,10 +26,10 @@ export default class CustomersControllers{
     return response.json(customers)
   }
 
-  async udpate(request: Request, response: Response): Promise<Response> {
+  async update(request: Request, response: Response): Promise<Response> {
     const {name, email } = request.body
     const id = Number (request.params.id)
-    const udpateCustomer = new UpdateCustomrService()
+    const udpateCustomer = new UpdateCustomerService()
     const customers = await udpateCustomer.execute({ id, name, email })
     return response.json(customers)
   }
@@ -38,6 +38,6 @@ export default class CustomersControllers{
     const id = Number (request.params.id)
     const deleteCustomer = new DeleteCustomerService()
     await deleteCustomer.execute({ id })
-    return response.status(204).json([])
+    return response.status(204).send()
   }
 }

@@ -8,7 +8,7 @@ interface IUpdateCustomer {
   email: string
 }
 
-export default class UpdateCustomrService {
+export default class UpdateCustomerService {
   public async execute({
     id,
     name,
