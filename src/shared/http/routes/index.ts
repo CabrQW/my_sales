@@ -7,6 +7,7 @@ import updateConfig from '@config/upload'
 import passwordRouter from '@modules/Users/routes/PasswordRoutes';
 import profileRouter from '@modules/Users/routes/ProfileRoutes';
 import customerRoutes from '@modules/customers/routes/CustomerRoutes';
+import ordersRouter from '@modules/orders/routes/OrdersRoutes';
 
 const router = Router();
 router.get('/health', (req, res) => {
@@ -21,5 +22,6 @@ router.use("/files", express.static(updateConfig.directory))
 router.use("/passwords", passwordRouter)
 router.use("/profiles", profileRouter)
 router.use("/customer", customerRoutes)
+router.use("/orders", ordersRouter)
 
 export default router;
