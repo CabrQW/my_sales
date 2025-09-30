@@ -4,6 +4,7 @@ import { customerRepository } from "@modules/customers/database/repositories/Cus
 import AppError from "@shared/errors/AppError";
 import { productsRepositoreis } from "@modules/products/repositories/ProductsRepositories";
 import { orderRepositories } from "../database/repositories/OrderRepositories";
+import RedisCache from "@shared/cache/RedisCache";
 
 interface ICreateOrder {
   customer_id: string;
@@ -16,6 +17,7 @@ export class createOrderService {
     const customerExists = await customerRepository.findById(
       Number(customer_id)
     )
+    const redisCache = new RedisCache()
 
     if(!customerExists) {
       throw new AppError('Could not find any customer with the given id.')
@@ -61,6 +63,7 @@ export class createOrderService {
     }))
 
     await productsRepositoreis.save(updateProductQuantity)
+    await redisCache.invalidate('api-mysales-PRODUCT_LIST')
 
     return order
   }

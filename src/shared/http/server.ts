@@ -7,6 +7,7 @@ import { errors } from 'celebrate';
 import router from "./routes";
 import ErrorHandleMiddleware from "@shared/middlewares/ErrorHandleMiddleware";
 import { AppDataSource } from '@shared/typeorm/data-source';
+import rateLimiter from '@shared/middlewares/rateLimiter';
 
 AppDataSource.initialize()
   .then(async () =>{
@@ -15,9 +16,10 @@ AppDataSource.initialize()
     app.use(cors());
     app.use(express.json());
 
+    app.use(rateLimiter);
     app.use(router);
-    app.use(errors())
-    app.use(ErrorHandleMiddleware.handdleError)
+    app.use(errors());
+    app.use(ErrorHandleMiddleware.handdleError);
 
     console.log('Connected to the database!');
 
