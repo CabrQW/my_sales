@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import { User } from '../infra/database/entities/User';
-import { usersRepositories } from '../database/repositories/UsersRepositories';
+import { usersRepositories } from '../infra/database/repositories/UsersRepositories';
 
 interface IShowProfile{
   user_id: number

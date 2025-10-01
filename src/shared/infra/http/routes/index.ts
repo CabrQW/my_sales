@@ -1,4 +1,4 @@
-import productsRouter from '@modules/products/routes/ProductRoutes';
+import productsRouter from '@modules/products/infra/http/routes/ProductRoutes';
 import avatarRoutes from '@modules/Users/infra/http/routes/AvatarRoutes';
 import sessionsRouter from '@modules/Users/infra/http/routes/SessionRoutes';
 import usersRouter from '@modules/Users/infra/http/routes/UserRoutes';
