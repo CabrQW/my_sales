@@ -1,5 +1,5 @@
-import { Product } from "@modules/products/database/entities/Product";
-import { productsRepositoreis } from "@modules/products/repositories/ProductsRepositories"
+import { Product } from "@modules/products/infra/database/entities/Product";
+import { productsRepositoreis } from "@modules/products/infra/database/repositories/ProductsRepositories"
 import RedisCache from "@shared/cache/RedisCache";
 
 export default class ListProductService {
