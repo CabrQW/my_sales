@@ -1,4 +1,4 @@
-import { celebrate, Joi, Segments } from "celebrate";
+import { celebrate, Joi, Segments } from 'celebrate';
 
 export const createProductSchema = celebrate({
   [Segments.BODY]: Joi.object().keys({
@@ -8,9 +8,9 @@ export const createProductSchema = celebrate({
   }),
 });
 
-export const udpateProductSchema = celebrate({
+export const updateProductSchema = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
-    id: Joi.string().uuid().required(),
+    id: Joi.string().required(),
   }),
   [Segments.BODY]: Joi.object().keys({
     name: Joi.string().required(),

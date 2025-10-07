@@ -1,16 +1,25 @@
-import { Router } from "express";
-import CustomersControllers from "../controllers/CustomerControllers";
-import AuthMiddleware from "@shared/middlewares/authMiddlewares";
-import { createCustomerSchema, idParamsValidate, updateCustomerSchema } from "../schemas/CustomerSchema";
+import { Router } from 'express';
+import CustomersControllers from '../controllers/CustomerControllers';
+import AuthMiddleware from '../../../../../shared/middlewares/authMiddlewares';
+import {
+  createCustomerSchema,
+  idParamsValidate,
+  updateCustomerSchema,
+} from '../schemas/CustomerSchema';
 
-const customerRoutes = Router()
-const customersController = new CustomersControllers()
+const customersRouter = Router();
+const customersController = new CustomersControllers();
 
-customerRoutes.use(AuthMiddleware.execute)
-customerRoutes.get('/', customersController.index)
-customerRoutes.get('/:id', idParamsValidate, customersController.show)
-customerRoutes.post('/', createCustomerSchema, customersController.create)
-customerRoutes.patch('/:id', idParamsValidate, updateCustomerSchema, customersController.update)
-customerRoutes.delete('/:id', idParamsValidate, customersController.delete)
+customersRouter.use(AuthMiddleware.execute);
+customersRouter.get('/', customersController.index);
+customersRouter.get('/:id', idParamsValidate, customersController.show);
+customersRouter.post('/', createCustomerSchema, customersController.create);
+customersRouter.patch(
+  '/:id',
+  idParamsValidate,
+  updateCustomerSchema,
+  customersController.update,
+);
+customersRouter.delete('/:id', idParamsValidate, customersController.delete);
 
-export default customerRoutes
+export default customersRouter;

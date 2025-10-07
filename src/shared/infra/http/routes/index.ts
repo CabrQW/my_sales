@@ -10,6 +10,7 @@ import customerRoutes from '@modules/customers/infra/http/routes/CustomerRoutes'
 import ordersRouter from '@modules/orders/infra/http/routes/OrdersRoutes';
 
 const router = Router();
+
 router.get('/health', (req, res) => {
   return res.json({message: 'hello word'});
 })

@@ -1,10 +1,16 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   name: string;
@@ -25,9 +31,9 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Expose({name: 'avatar_url'})
+  @Expose({ name: 'avatar_url' })
   getAvatarUrl(): string | null {
-    if(!this.avatar) return null
-    return `${process.env.APP_API_URL}/files/${this.avatar}`
+    if (!this.avatar) return null;
+    return `${process.env.APP_API_URL}/files/${this.avatar}`;
   }
 }

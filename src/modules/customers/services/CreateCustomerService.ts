@@ -1,27 +1,28 @@
-import AppError from "@shared/errors/AppError";
-import { customerRepository } from "../infra/database/repositories/CustomerRepositories";
-import { Customer } from "../infra/database/entities/Customer";
+import AppError from '@shared/errors/AppError';
+import { Customer } from '../infra/database/entities/Customer';
+import { ICreateCustomer } from '../domain/models/ICreateUser';
+import { ICustomersRepository } from '../domain/repositories/ICustomersRepositories';
+import { inject, injectable } from 'tsyringe';
 
-interface ICreateCustomer{
-  name: string,
-  email: string
-}
+@injectable()
+export default class CreateCustomerService {
+  constructor(
+    @inject('CustomersRepository')
+    private customerRepository: ICustomersRepository,
+  ) {}
 
-export default class CreateCustomerService{
-  public async execute({name, email}: ICreateCustomer): Promise<Customer> {
-    const emailExists = await customerRepository.findByEmail(email)
+  public async execute({ name, email }: ICreateCustomer): Promise<Customer> {
+    const emailExists = await this.customerRepository.findByEmail(email);
 
-    if(emailExists){
-      throw new AppError("Email address already used", 409)
+    if (emailExists) {
+      throw new AppError('Email address already used.', 409);
     }
 
-    const customer = customerRepository.create({
+    const customer = await this.customerRepository.create({
       name,
-      email
-    })
+      email,
+    });
 
-    await customerRepository.save(customer)
-
-    return customer
+    return customer;
   }
 }

@@ -1,18 +1,26 @@
-import AppError from "@shared/errors/AppError";
-import { Order } from "../infra/database/entities/Order";
-import { orderRepositories } from "../infra/database/repositories/OrderRepositories";
-import RedisCache from "@shared/cache/RedisCache";
+import AppError from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
+import { IOrdersRepository } from '../domain/repositories/IOrdersRepository';
+import { IOrder } from '../domain/models/IOrder';
 
-export class ShowOrderService{
-  async execute(id: string): Promise<Order> {
-    const order = await orderRepositories.findByid(Number(id))
-    const redisCache = new RedisCache()
+interface IRequest {
+  id: string;
+}
+@injectable()
+class ShowOrderService {
+  constructor(
+    @inject('OrdersRepository')
+    private ordersRepository: IOrdersRepository,
+  ) {}
+  public async execute({ id }: IRequest): Promise<IOrder> {
+    const order = await this.ordersRepository.findById(id);
 
-    if(!order) {
-      throw new AppError('Order not found.')
+    if (!order) {
+      throw new AppError('Order not found.');
     }
 
-    await redisCache.invalidate('api-mysales-PRODUCT_LIST')
-    return order
+    return order;
   }
 }
+
+export default ShowOrderService;

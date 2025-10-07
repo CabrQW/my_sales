@@ -1,37 +1,51 @@
-import { Product } from "@modules/products/infra/database/entities/Product";
-import { productsRepositoreis } from "@modules/products/infra/database/repositories/ProductsRepositories";
-import RedisCache from "@shared/cache/RedisCache";
-import AppError from "@shared/errors/AppError";
+import AppError from '@shared/errors/AppError';
+import RedisCache from '@shared/cache/RedisCache';
+import { Product } from '../infra/database/entities/Product';
+import { inject, injectable } from 'tsyringe';
+import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 
-interface IUpdateProduct {
-  id: string,
-  name: string,
-  price: number,
-  quantity: number
+interface IRequest {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
 }
+@injectable()
+class UpdateProductService {
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository,
+  ) {}
+  public async execute({
+    id,
+    name,
+    price,
+    quantity,
+  }: IRequest): Promise<Product> {
+    const product = await this.productsRepository.findById(id);
 
-export default class UpdateProductService {
-  async execute({ id, name, price, quantity}: IUpdateProduct): Promise<Product> {
-        const redisCache = new RedisCache()
-        const product = await productsRepositoreis.findById(id)
+    if (!product) {
+      throw new AppError('Product not found.', 404);
+    }
 
-        if (!product) {
-          throw new AppError ("Product not found.", 404)
-        }
+    const productExists = await this.productsRepository.findByName(name);
 
-        const productExists = await productsRepositoreis.findByName(name)
-        if(productExists && productExists.id !== id){
-          throw new AppError('There is already one product with this name',405)
-        }
+    if (productExists && name !== product.name) {
+      throw new AppError('There is already one product with this name');
+    }
 
-        product.name = name
-        product.price = price
-        product.quantity = quantity
+    const redisCache = new RedisCache();
 
-        await productsRepositoreis.save(product)
+    await redisCache.invalidate('api-vendas-PRODUCT_LIST');
 
-        await redisCache.invalidate('api-mysales-PRODUCT_LIST')
+    product.name = name;
+    product.price = price;
+    product.quantity = quantity;
 
-        return product
+    await this.productsRepository.save(product as unknown as Product);
+
+    return product as unknown as Product;
   }
 }
+
+export default UpdateProductService;
